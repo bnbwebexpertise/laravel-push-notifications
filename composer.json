@@ -1,0 +1,33 @@
+{
+  "name": "bnbwebexpertise/laravel-push-notifications",
+  "type": "library",
+  "description": "Apple and Google Push Notification",
+  "keywords": [
+    "GCM",
+    "APNS",
+    "apple",
+    "push",
+    "notification",
+    "laravel"
+  ],
+  "license": "MIT",
+  "require": {
+    "php": ">=5.4",
+    "duccio/apns-php": "^1.0",
+    "illuminate/support": "5.*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Bnb\\PushNotifications\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Bnb\\PushNotifications\\Tests\\": "tests/"
+    }
+  },
+  "require-dev": {
+    "laravel/lumen-framework": "5.*",
+    "phpunit/phpunit": "~4.1"
+  }
+}
