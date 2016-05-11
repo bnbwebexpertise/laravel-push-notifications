@@ -54,7 +54,7 @@ trait Payload
     /**
      * @param string $value
      *
-     * @return self
+     * @return $this
      */
     public function title($value)
     {
@@ -67,7 +67,7 @@ trait Payload
     /**
      * @param string $value
      *
-     * @return self
+     * @return $this
      */
     public function message($value)
     {
@@ -80,7 +80,7 @@ trait Payload
     /**
      * @param int $value
      *
-     * @return self
+     * @return $this
      */
     public function badge($value)
     {
@@ -93,7 +93,7 @@ trait Payload
     /**
      * @param string $value
      *
-     * @return self
+     * @return $this
      */
     public function sound($value)
     {
@@ -107,7 +107,7 @@ trait Payload
      * @param string $name
      * @param string $value
      *
-     * @return self
+     * @return $this
      */
     public function metadata($name, $value)
     {

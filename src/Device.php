@@ -65,7 +65,7 @@ class Device
      * @param string $token the push token
      * @param string $uuid  the user device ID
      *
-     * @return self
+     * @return $this
      */
     public static function gcm($token, $uuid = null)
     {

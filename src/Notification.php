@@ -38,7 +38,7 @@ class Notification
      *
      * @param Device $device
      *
-     * @return self
+     * @return $this
      */
     public function push(Device $device)
     {
