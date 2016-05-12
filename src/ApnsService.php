@@ -87,7 +87,6 @@ class ApnsService
                 $message    = new ApnsPHP_Message ($device->token);
 
                 $message->setCustomIdentifier($device->hash . '::' . (++$this->seq));
-                $message->setBadge($device->badge);
                 $message->setText($device->message);
                 $message->setSound($device->sound || 'default');
                 $message->setExpiry($device->ttl);
@@ -99,6 +98,10 @@ class ApnsService
                 }
 
                 $message->setCustomProperty('props', $properties);
+
+                if ( ! empty($device->badge)) {
+                    $message->setBadge($device->badge);
+                }
 
                 $apns->add($message);
             } catch (\Exception $e) {
