@@ -101,11 +101,18 @@ class Notification
      * @param Collection $devices
      *
      * @return array
+     * @throws \Exception
      */
     protected function pushApns(Collection $devices)
     {
+        $certificate = base_path(config('push.apns.certificate'));
+
+        if ( ! file_exists($certificate) || is_dir($certificate)) {
+            throw new \Exception('APNs certificate does not exists or is not a valid file at location: ' . $certificate);
+        }
+
         $service = new ApnsService(
-            config('push.apns.certificate'),
+            $certificate,
             config('push.apns.password'),
             config('push.apns.environment')
         );
