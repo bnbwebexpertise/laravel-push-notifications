@@ -13,10 +13,10 @@ return [
     */
 
     'apns' => [
-        'environment' => env('PUSH_APN_ENVIRONMENT', 'production'),
-        'root'        => env('PUSH_APN_ROOT', __DIR__ . '/push/entrust_root_certification_authority.pem'),
-        'certificate' => env('PUSH_APN_CERTIFICATE'),
-        'password'    => env('PUSH_APN_PASSWORD')
+        'environment' => env('PUSH_APNS_ENVIRONMENT', 'production'),
+        'root'        => env('PUSH_APNS_ROOT', __DIR__ . '/push/entrust_root_certification_authority.pem'),
+        'certificate' => env('PUSH_APNS_CERTIFICATE'),
+        'password'    => env('PUSH_APNS_PASSWORD')
     ],
 
     /*
