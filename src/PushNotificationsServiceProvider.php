@@ -13,7 +13,18 @@ use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 class PushNotificationsServiceProvider extends BaseServiceProvider
 {
 
-    private $configPath = __DIR__ . '/../config/';
+    private $configPath;
+
+
+    /**
+     * Class constructor
+     */
+    public function __construct($app)
+    {
+        parent::__construct($app);
+
+        $this->configPath = __DIR__ . '/../config/';
+    }
 
 
     /**
