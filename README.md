@@ -6,7 +6,7 @@ Add the provider in your `config/app.php` :
 
 ```php
     'providers' => [
-        Bnb\PushNotifications\PushServiceProvider::class,
+        Bnb\PushNotifications\PushNotificationsServiceProvider::class,
     ],
 ```
 
