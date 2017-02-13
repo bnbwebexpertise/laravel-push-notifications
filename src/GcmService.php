@@ -48,12 +48,15 @@ class GcmService
     public function push(Collection $devices)
     {
         if ( ! $devices->count()) {
-            return;
+            return [
+                'errors' => [],
+                'updates' => []
+            ];
         }
 
-        $this->errors  = [];
+        $this->errors = [];
         $this->updates = [];
-        $responses     = [];
+        $responses = [];
 
         foreach ($devices as $device) {
             try {
@@ -91,7 +94,7 @@ class GcmService
         }
 
         return [
-            'errors'  => $this->errors,
+            'errors' => $this->errors,
             'updates' => $this->updates
         ];
     }
@@ -130,13 +133,13 @@ class GcmService
 
         $data = [
             'time_to_live' => $device->ttl,
-            'data'         => [
+            'data' => [
                 'message' => $device->message,
-                'title'   => $device->title,
-                'sound'   => $device->sound,
+                'title' => $device->title,
+                'sound' => $device->sound,
                 'appdata' => $device->metadata,
             ],
-            'to'           => $device->token
+            'to' => $device->token
         ];
 
         $ch = curl_init();

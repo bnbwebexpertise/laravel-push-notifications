@@ -52,7 +52,7 @@ class ApnsService
     public function __construct($certificate, $passPhrase, $environment = 'production')
     {
         $this->certificate = $certificate;
-        $this->passPhrase  = $passPhrase;
+        $this->passPhrase = $passPhrase;
         $this->environment = $environment;
     }
 
@@ -65,11 +65,14 @@ class ApnsService
     public function push(Collection $devices)
     {
         if ($devices->count() <= 0) {
-            return;
+            return [
+                'errors' => [],
+                'updates' => []
+            ];
         }
 
         $this->errors = [];
-        $environment  = ApnsPHP_Abstract::ENVIRONMENT_PRODUCTION;
+        $environment = ApnsPHP_Abstract::ENVIRONMENT_PRODUCTION;
 
         if ('development' === $this->environment) {
             $environment = ApnsPHP_Abstract::ENVIRONMENT_SANDBOX;
@@ -84,7 +87,7 @@ class ApnsService
             /** @var Device $device */
             try {
                 $properties = join(',', array_merge(['title', 'message'], array_keys($device->metadata)));
-                $message    = new ApnsPHP_Message ($device->token);
+                $message = new ApnsPHP_Message ($device->token);
 
                 $message->setCustomIdentifier($device->hash . '::' . (++$this->seq));
                 $message->setText($device->message);
@@ -144,7 +147,7 @@ class ApnsService
         $apns = null;
 
         return [
-            'errors'  => $this->errors,
+            'errors' => $this->errors,
             'updates' => []
         ];
     }
