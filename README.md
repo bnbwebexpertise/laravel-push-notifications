@@ -6,7 +6,7 @@ Add the provider in your `config/app.php` :
 
 ```php
     'providers' => [
-        Bnb\PushNotifications\PushServiceProvider::class,
+        Bnb\PushNotifications\PushNotificationsServiceProvider::class,
     ],
 ```
 
@@ -67,11 +67,11 @@ A notification message holds the following properties where each one can be over
 | Name | Type | Description |
 |------|------|-------------|
 | title | string | The title displayed in the notification bar |
-| message | message | The message displayed in the notification bar, if available |
+| message | message | The message displayed in the notification bar (platform dependent) |
 | badge | int | The badge number displayed in the notification bar |
-| sound |  string | The sound to play when the notification is received |
-| ttl |  int | Number of seconds after which the message is expired in the network |
-| metadata | array | Key/Pair values of custom data |
+| sound |  string | The sound to play when the notification is received (platform dependent) |
+| ttl |  int | Number of seconds after which the message is expired by the network |
+| metadata | array | Key/Value pairs of custom data |
 
 ```php
 $notification = new Notification('title', 'message');
@@ -115,12 +115,12 @@ $results = $notification->send();
 // $results['errors'] // Contains the list of failed devices
 // $results['updates'] // Contains the list of updated token devices (GCM)
 
-foreach($results['errors'] as $device) {
-    DbDevice::where('token', $device->token)
+foreach($results['errors'] as $data) {
+    DbDevice::where('token', $data->token)
         ->delete();
 }
 
-foreach($results['updates'] as $device) {
+foreach($results['updates'] as $data) {
     DbDevice::where('token', $data['device']->token)
         ->update(['token' => $data['token']]);
 }
