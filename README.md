@@ -26,7 +26,7 @@ If your certificate is secured with a password you can specify it in the `.env` 
     
 You can also set the environnement to use (default to `production`) :
 
-    PUSH_APNS_ENVIRONMENT=sandbox
+    PUSH_APNS_ENVIRONMENT=development
 
 #### Google Cloud Messaging
 
@@ -104,7 +104,7 @@ For GCM the `metadata` are bound to the `appdata` object.
 ### Example
 
 ```php
-$notification = \Bnb\PushNotifications\Notification('Hello World !', 'This is a test message');
+$notification = new \Bnb\PushNotifications\Notification('Hello World !', 'This is a test message');
 $notification->metadata('custom-id', 1234);
 
 $notification->push(\Bnb\PushNotifications\Device::gcm('test-token')->badge(3)->metadata('device-key','demoGcm'));
@@ -124,4 +124,50 @@ foreach($results['updates'] as $data) {
     DbDevice::where('token', $data['device']->token)
         ->update(['token' => $data['token']]);
 }
+```
+
+### Commands
+
+You can use the following Artisan command lines to send test messages :
+
+#### Send to Android devices
+
+`php artisan push:gcm [options] [--] <token> <message> [<title>]`
+
+```
+Arguments:
+  token                        the device token
+  message                      the notification message
+  title                        (optional) the notification title
+
+Options:
+      --sender-id[=SENDER-ID]  The GCM sender ID
+```
+
+Example :
+
+```
+php artisan push:gcm "ebizwJXzS7o:APA91bEa6tnBa-ZTkSf0fnsGNvU1BLdMnSi09GQ6BkFp-p99wSyVqb0f1nZpE3UEb-w3TzlrwhRGG1YQC0SV9N4DwO17RdceUX77ahAYtWcpFMgC4Xnc3NSkQ9PSqYfeFRPDL6D_KORM" "This is a test message"
+```
+
+#### Send to iOS devices
+
+`php artisan push:apns [options] [--] <token> <message> [<title>]`
+
+```
+Arguments:
+  token                            the device token
+  message                          the notification message
+  title                            (optional) the notification title
+
+Options:
+      --certificate[=CERTIFICATE]  The Apple certificate path
+      --password[=PASSWORD]        The Apple certificate password
+      --environment[=ENVIRONMENT]  The Apple push environment (production or development)
+```
+
+Example :
+
+```
+php artisan push:apns "3c1c1c88428aeec68525a3e3d23c632bfef8c076c45e3af6769501b4ba493b1b" "This is a test message" "Hello World"
 ```

@@ -8,6 +8,8 @@
 
 namespace Bnb\PushNotifications;
 
+use Bnb\PushNotifications\Console\Commands\SendApnsNotification;
+use Bnb\PushNotifications\Console\Commands\SendGcmNotification;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 
 class PushNotificationsServiceProvider extends BaseServiceProvider
@@ -41,7 +43,7 @@ class PushNotificationsServiceProvider extends BaseServiceProvider
         }
 
         $this->publishes([
-            $this->configPath . '/push.php'                                      => $publishPath . '/push.php',
+            $this->configPath . '/push.php' => $publishPath . '/push.php',
             $this->configPath . '/push/entrust_root_certification_authority.pem' => $publishPath . '/push/entrust_root_certification_authority.pem',
         ], 'config');
     }
@@ -57,5 +59,10 @@ class PushNotificationsServiceProvider extends BaseServiceProvider
         $this->mergeConfigFrom(
             $this->configPath . '/push.php', 'push'
         );
+
+        $this->commands([
+            SendApnsNotification::class,
+            SendGcmNotification::class,
+        ]);
     }
 }
