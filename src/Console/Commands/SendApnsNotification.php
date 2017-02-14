@@ -26,7 +26,7 @@ class SendApnsNotification extends Command
                                 {title? : (optional) the notification title}
                                 {--certificate= : The Apple certificate path}
                                 {--password= : The Apple certificate password}
-                                {--environment= : The Apple push environment}';
+                                {--environment= : The Apple push environment (production or development)}';
 
     /**
      * The console command description.
