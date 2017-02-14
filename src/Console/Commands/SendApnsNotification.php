@@ -60,6 +60,7 @@ class SendApnsNotification extends Command
                     'password' => $this->option('password') ?: config('push.apns.password'),
                     'environment' => $this->option('environment') ?: config('push.apns.environment'),
                 ],
+                'gcm' => config('push.gcm'),
             ],
         ]);
 

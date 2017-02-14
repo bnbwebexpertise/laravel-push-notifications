@@ -52,6 +52,7 @@ class SendGcmNotification extends Command
     {
         config([
             'push' => [
+                'apns' => config('push.apns'),
                 'gcm' => [
                     'key' => $this->option('sender-id') ?: config('push.gcm.key'),
                 ],
