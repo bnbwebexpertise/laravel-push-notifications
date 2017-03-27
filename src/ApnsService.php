@@ -158,7 +158,7 @@ class ApnsService
      */
     protected function triggerDeviceError(Collection $devices, $token)
     {
-        $device = $devices->first(function ($key, $device) use ($token) {
+        $device = $devices->first(function ($device) use ($token) {
             return $device->token == $token;
         });
 
