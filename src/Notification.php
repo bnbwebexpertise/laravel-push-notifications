@@ -27,7 +27,7 @@ class Notification
      */
     public function __construct($title, $message)
     {
-        $this->title   = $title;
+        $this->title = $title;
         $this->message = $message;
         $this->devices = new Collection;
     }
@@ -68,7 +68,7 @@ class Notification
     public function send()
     {
         $apns = new Collection;
-        $gcm  = new Collection;
+        $gcm = new Collection;
 
         $this->devices->each(function (Device $device) use (&$apns, &$gcm) {
             if ($device->isApns()) {
@@ -79,7 +79,7 @@ class Notification
         });
 
         $results = [
-            'errors'  => [],
+            'errors' => [],
             'updates' => [],
         ];
 
@@ -87,8 +87,8 @@ class Notification
         $this->mergeResults($results, $this->pushGcm($gcm));
 
         // Reset
-        $apns         = null;
-        $gcm          = null;
+        $apns = null;
+        $gcm = null;
         $this->device = new Collection;
 
         return $results;
@@ -105,6 +105,13 @@ class Notification
      */
     protected function pushApns(Collection $devices)
     {
+        if (empty($devices) || $devices->isEmpty()) {
+            return [
+                'errors' => [],
+                'updates' => []
+            ];
+        }
+
         $certificate = base_path(config('push.apns.certificate'));
 
         if ( ! file_exists($certificate) || is_dir($certificate)) {
@@ -130,6 +137,13 @@ class Notification
      */
     private function pushGcm(Collection $devices)
     {
+        if (empty($devices) || $devices->isEmpty()) {
+            return [
+                'errors' => [],
+                'updates' => []
+            ];
+        }
+
         $service = new GcmService(config('push.gcm.key'));
 
         return $this->sendToService($devices, $service);
@@ -148,7 +162,7 @@ class Notification
         $chunks = $devices->chunk((int)config('push.chunk', 100));
 
         $results = [
-            'errors'  => [],
+            'errors' => [],
             'updates' => []
         ];
 
@@ -168,7 +182,7 @@ class Notification
      */
     private function mergeResults(&$results, $result)
     {
-        $results['errors']  = array_merge($results['errors'], $result['errors']);
+        $results['errors'] = array_merge($results['errors'], $result['errors']);
         $results['updates'] = array_merge($results['updates'], $result['updates']);
     }
 }
