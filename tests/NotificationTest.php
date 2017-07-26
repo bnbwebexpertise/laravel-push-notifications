@@ -1,4 +1,5 @@
 <?php
+use Tests\TestCase;
 use Bnb\PushNotifications\Device;
 use Bnb\PushNotifications\Notification;
 
@@ -8,7 +9,7 @@ use Bnb\PushNotifications\Notification;
  * @author    Jérémy GAULIN <jeremy@bnb.re>
  * @copyright 2016 - B&B Web Expertise
  */
-class NotificationTest extends PHPUnit_Framework_TestCase
+class NotificationTest extends TestCase
 {
 
     /**
@@ -96,5 +97,30 @@ class NotificationTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(4321, $payload->ttl);
         $this->assertEquals(['key1' => 'deviceValue1', 'key2' => 'value2', 'deviceKey2' => 'value2'],
             $payload->metadata);
+    }
+
+
+    /**
+     * @test
+     */
+    public function it_changes_notification_service_option_values()
+    {
+        $notification = new Notification('title', 'message');
+
+        $this->assertNotEquals('new_key_value', $notification->getGcmOption('key'));
+        $this->assertNotEquals('new_certificate_value', $notification->getApnsOption('certificate'));
+        $this->assertNotEquals('new_password_value', $notification->getApnsOption('password'));
+        $this->assertNotEquals('new_environment_value', $notification->getApnsOption('environment'));
+
+        $notification
+            ->setGcmOption('key', 'new_key_value')
+            ->setApnsOption('certificate', 'new_certificate_value')
+            ->setApnsOption('password', 'new_password_value')
+            ->setApnsOption('environment', 'new_environment_value');
+
+        $this->assertEquals('new_key_value', $notification->getGcmOption('key'));
+        $this->assertEquals('new_certificate_value', $notification->getApnsOption('certificate'));
+        $this->assertEquals('new_password_value', $notification->getApnsOption('password'));
+        $this->assertEquals('new_environment_value', $notification->getApnsOption('environment'));
     }
 }

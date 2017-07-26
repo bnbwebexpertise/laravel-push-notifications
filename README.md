@@ -59,7 +59,26 @@ return [
 
 ];
 ```
-    
+
+### Configuration at runtime
+
+The GCM and APNs configuration can be changed at runtime via the `setGcmOption($key, $value)` and `setApnsOption($key, $value)` methods of the `Notification` class.
+
+#### GCM options
+
+| Key | Default | Description |
+|------|------|-------------|
+| key | `config('push.gcm.key')` | The GCM server API key |
+
+#### APNs options
+
+| Key | Default | Description |
+|------|------|-------------|
+| certificate | `base_path(config('push.apns.certificate'))` | The APNs certificate path on the server filesystem |
+| password | `config('push.apns.password')` | The APNs certificate password |
+| environment | `config('push.apns.environment')` | The APNs environnement |
+
+
 ## Usage
 
 A notification message holds the following properties where each one can be overridden by the device definition :

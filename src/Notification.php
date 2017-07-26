@@ -18,6 +18,16 @@ class Notification
     /** @var  Collection */
     protected $devices;
 
+    protected $gcmOptions = [
+        'key' => null
+    ];
+
+    protected $apnsOptions = [
+        'certificate' => null,
+        'password' => null,
+        'environment' => null,
+    ];
+
 
     /**
      * Class constructor
@@ -30,6 +40,12 @@ class Notification
         $this->title = $title;
         $this->message = $message;
         $this->devices = new Collection;
+
+        $this->gcmOptions['key'] = config('push.gcm.key');
+
+        $this->apnsOptions['certificate'] = base_path(config('push.apns.certificate'));
+        $this->apnsOptions['password'] = config('push.apns.password');
+        $this->apnsOptions['environment'] = config('push.apns.environment');
     }
 
 
@@ -112,7 +128,7 @@ class Notification
             ];
         }
 
-        $certificate = base_path(config('push.apns.certificate'));
+        $certificate = $this->apnsOptions['certificate'];
 
         if ( ! file_exists($certificate) || is_dir($certificate)) {
             throw new \Exception('APNs certificate does not exists or is not a valid file at location: ' . $certificate);
@@ -120,8 +136,8 @@ class Notification
 
         $service = new ApnsService(
             $certificate,
-            config('push.apns.password'),
-            config('push.apns.environment')
+            $this->apnsOptions['password'],
+            $this->apnsOptions['environment']
         );
 
         return $this->sendToService($devices, $service);
@@ -144,7 +160,7 @@ class Notification
             ];
         }
 
-        $service = new GcmService(config('push.gcm.key'));
+        $service = new GcmService($this->gcmOptions['key']);
 
         return $this->sendToService($devices, $service);
     }
@@ -184,5 +200,67 @@ class Notification
     {
         $results['errors'] = array_merge($results['errors'], $result['errors']);
         $results['updates'] = array_merge($results['updates'], $result['updates']);
+    }
+
+
+    /**
+     * Gets a GCM option value
+     *
+     * @param string $key
+     *
+     * @return string|null
+     */
+    public function getGcmOption($key)
+    {
+        return isset($this->gcmOptions[$key]) ? $this->gcmOptions[$key] : null;
+    }
+
+
+    /**
+     * Gets an APNs option value
+     *
+     * @param string $key
+     *
+     * @return string|null
+     */
+    public function getApnsOption($key)
+    {
+        return isset($this->apnsOptions[$key]) ? $this->apnsOptions[$key] : null;
+    }
+
+
+    /**
+     * Sets a GCM option value
+     *
+     * @param string $key
+     * @param string $value
+     *
+     * @return self
+     */
+    public function setGcmOption($key, $value)
+    {
+        if (array_key_exists($key, $this->gcmOptions)) {
+            $this->gcmOptions[$key] = $value;
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * Sets an APNs option value
+     *
+     * @param string $key
+     * @param string $value
+     *
+     * @return self
+     */
+    public function setApnsOption($key, $value)
+    {
+        if (array_key_exists($key, $this->apnsOptions)) {
+            $this->apnsOptions[$key] = $value;
+        }
+
+        return $this;
     }
 }
