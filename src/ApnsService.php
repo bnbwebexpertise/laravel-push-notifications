@@ -87,12 +87,14 @@ class ApnsService
             /** @var Device $device */
             try {
                 $properties = join(',', array_merge(['title', 'message'], array_keys($device->metadata)));
-                $message = new ApnsPHP_Message ($device->token);
+                $message = new \ApnsPHP_Message_Custom($device->token);
+                
 
                 $message->setCustomIdentifier($device->hash . '::' . (++$this->seq));
                 $message->setText($device->message);
                 $message->setSound($device->sound || 'default');
                 $message->setExpiry($device->ttl);
+                $message->setTitle($device->title);
                 $message->setCustomProperty('title', $device->title);
                 $message->setCustomProperty('message', $device->message);
 
