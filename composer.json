@@ -29,5 +29,15 @@
   "require-dev": {
     "laravel/lumen-framework": "5.*",
     "phpunit/phpunit": ">=4.1"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.x-dev"
+    },
+    "laravel": {
+      "providers": [
+        "Bnb\\PushNotifications\\PushNotificationsServiceProvider"
+      ]
+    }
   }
 }

@@ -2,13 +2,15 @@
 
 ## Installation
 
-Add the provider in your `config/app.php` :
+For Laravel 5.4 or older, add the provider in your `config/app.php` :
 
 ```php
     'providers' => [
         Bnb\PushNotifications\PushNotificationsServiceProvider::class,
     ],
 ```
+
+Laravel 5.5 use _Composer_ auto-discovery feature.
 
 ## Configuration
 
