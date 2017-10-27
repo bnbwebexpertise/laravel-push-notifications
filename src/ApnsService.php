@@ -41,6 +41,11 @@ class ApnsService
      */
     private $errors;
 
+    /**
+     * @var array
+     */
+    private $payloads;
+
 
     /**
      * AppleNotificationService constructor.
@@ -66,8 +71,9 @@ class ApnsService
     {
         if ($devices->count() <= 0) {
             return [
-                'errors' => [],
-                'updates' => []
+                'errors'   => [],
+                'updates'  => [],
+                'payloads' => [],
             ];
         }
 
@@ -88,7 +94,6 @@ class ApnsService
             try {
                 $properties = join(',', array_merge(['title', 'message'], array_keys($device->metadata)));
                 $message = new \ApnsPHP_Message_Custom($device->token);
-                
 
                 $message->setCustomIdentifier($device->hash . '::' . (++$this->seq));
                 $message->setText($device->message);
@@ -107,6 +112,9 @@ class ApnsService
                 if ( ! empty($device->badge)) {
                     $message->setBadge($device->badge);
                 }
+
+                // Track payloads
+                $this->payloads[] = $message->getPayload();
 
                 $apns->add($message);
             } catch (\Exception $e) {
@@ -149,8 +157,9 @@ class ApnsService
         $apns = null;
 
         return [
-            'errors' => $this->errors,
-            'updates' => []
+            'payloads' => $this->payloads,
+            'errors'   => $this->errors,
+            'updates'  => []
         ];
     }
 
