@@ -9,6 +9,7 @@
 namespace Bnb\PushNotifications;
 
 use ApnsPHP_Log_Interface;
+use Log;
 
 class ApnsLogWriter implements ApnsPHP_Log_Interface
 {
@@ -20,6 +21,6 @@ class ApnsLogWriter implements ApnsPHP_Log_Interface
      */
     public function log($sMessage)
     {
-        \Log::info('PushNotifications::APNs - ' . $sMessage);
+        Log::info('PushNotifications::APNs - ' . $sMessage);
     }
 }

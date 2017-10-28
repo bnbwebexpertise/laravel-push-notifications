@@ -14,7 +14,11 @@ Laravel 5.5 use _Composer_ auto-discovery feature.
 
 ## Configuration
 
-### Configuration via environement 
+### Configuration via environment 
+
+To return the APNs payloads in the results array (debugging purpose) :
+
+    PUSH_RETURN_PAYLOADS=true
 
 #### Apple Push Notification Service
 
@@ -58,6 +62,12 @@ return [
     'gcm' => [
         'key' => 'AIaeRtYiUoP-QsDfghQJK1lMWXCvBN23AZE4RT6u',
     ],
+    
+    // the size of the chunk batch loop
+    'chunk' => 100,
+    
+    // set to true to return the APNs payloads in the results array
+    'payloads' => false,
 
 ];
 ```
@@ -135,6 +145,7 @@ $results = $notification->send();
 
 // $results['errors'] // Contains the list of failed devices
 // $results['updates'] // Contains the list of updated token devices (GCM)
+// $results['payloads'] // Contains the messages payloads (APNs only) if config('push.payloads') is set to true
 
 foreach($results['errors'] as $data) {
     DbDevice::where('token', $data->token)

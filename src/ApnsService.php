@@ -12,6 +12,7 @@ use ApnsPHP_Abstract;
 use ApnsPHP_Message;
 use ApnsPHP_Push;
 use Illuminate\Support\Collection;
+use Log;
 
 class ApnsService
 {
@@ -71,8 +72,8 @@ class ApnsService
     {
         if ($devices->count() <= 0) {
             return [
-                'errors'   => [],
-                'updates'  => [],
+                'errors' => [],
+                'updates' => [],
                 'payloads' => [],
             ];
         }
@@ -113,12 +114,13 @@ class ApnsService
                     $message->setBadge($device->badge);
                 }
 
-                // Track payloads
-                $this->payloads[] = $message->getPayload();
+                if (config('push.payloads')) {
+                    $this->payloads[] = $message->getPayload();
+                }
 
                 $apns->add($message);
             } catch (\Exception $e) {
-                \Log::error(sprintf('PushNotifications::APNs - Failed to send notification : %s%s%s%sCONTEXT =',
+                Log::error(sprintf('PushNotifications::APNs - Failed to send notification : %s%s%s%sCONTEXT =',
                     $e->getMessage(), PHP_EOL,
                     $e->getTraceAsString(), PHP_EOL), ['message' => $device]);
             }
@@ -149,7 +151,7 @@ class ApnsService
                 }
 
                 if ($foundError) {
-                    \Log::error('PushNotifications::APNs - error', $error);
+                    Log::error('PushNotifications::APNs - error', $error);
                 }
             }
         }
@@ -158,8 +160,8 @@ class ApnsService
 
         return [
             'payloads' => $this->payloads,
-            'errors'   => $this->errors,
-            'updates'  => []
+            'errors' => $this->errors,
+            'updates' => []
         ];
     }
 

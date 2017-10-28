@@ -9,6 +9,7 @@
 namespace Bnb\PushNotifications;
 
 use Illuminate\Support\Collection;
+use Log;
 
 class GcmService
 {
@@ -66,7 +67,7 @@ class GcmService
                     $responses [] = $response;
                 }
             } catch (\Exception $e) {
-                \Log::error(sprintf('PushNotifications::GCM - Failed to send notification in single mode : %s%s%s%sCONTEXT =',
+                Log::error(sprintf('PushNotifications::GCM - Failed to send notification in single mode : %s%s%s%sCONTEXT =',
                     $e->getMessage(),
                     PHP_EOL,
                     $e->getTraceAsString(), PHP_EOL), ['device' => $device]);
@@ -86,7 +87,7 @@ class GcmService
                             $this->triggerDeviceError($devices->get($i));
                         }
                     } catch (\Exception $e) {
-                        \Log::error(sprintf('PushNotifications::GCM - Failed to handle result of notification : %s%s%s%sCONTEXT =',
+                        Log::error(sprintf('PushNotifications::GCM - Failed to handle result of notification : %s%s%s%sCONTEXT =',
                             $e->getMessage(), PHP_EOL, $e->getTraceAsString(), PHP_EOL), ['result' => $result]);
                     }
                 }

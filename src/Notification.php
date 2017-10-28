@@ -95,8 +95,8 @@ class Notification
         });
 
         $results = [
-            'errors'   => [],
-            'updates'  => [],
+            'errors' => [],
+            'updates' => [],
             'payloads' => []
         ];
 
@@ -124,8 +124,8 @@ class Notification
     {
         if (empty($devices) || $devices->isEmpty()) {
             return [
-                'errors'   => [],
-                'updates'  => [],
+                'errors' => [],
+                'updates' => [],
                 'payloads' => []
             ];
         }
@@ -157,8 +157,8 @@ class Notification
     {
         if (empty($devices) || $devices->isEmpty()) {
             return [
-                'errors'   => [],
-                'updates'  => [],
+                'errors' => [],
+                'updates' => [],
                 'payloads' => []
             ];
         }
@@ -181,8 +181,8 @@ class Notification
         $chunks = $devices->chunk((int)config('push.chunk', 100));
 
         $results = [
-            'errors'   => [],
-            'updates'  => [],
+            'errors' => [],
+            'updates' => [],
             'payloads' => []
         ];
 
@@ -202,9 +202,12 @@ class Notification
      */
     private function mergeResults(&$results, $result)
     {
-        $results['errors']   = array_merge($results['errors'],   $result['errors']);
-        $results['updates']  = array_merge($results['updates'],  $result['updates']);
-        $results['payloads'] = array_merge($results['payloads'], $result['payloads']);
+        $results['errors'] = array_merge($results['errors'], $result['errors']);
+        $results['updates'] = array_merge($results['updates'], $result['updates']);
+
+        if (config('push.payloads')) {
+            $results['payloads'] = array_merge($results['payloads'], $result['payloads']);
+        }
     }
 
 

@@ -14,9 +14,9 @@ return [
 
     'apns' => [
         'environment' => env('PUSH_APNS_ENVIRONMENT', 'production'),
-        'root'        => env('PUSH_APNS_ROOT', __DIR__ . '/push/entrust_root_certification_authority.pem'),
+        'root' => env('PUSH_APNS_ROOT', __DIR__ . '/push/entrust_root_certification_authority.pem'),
         'certificate' => env('PUSH_APNS_CERTIFICATE'),
-        'password'    => env('PUSH_APNS_PASSWORD')
+        'password' => env('PUSH_APNS_PASSWORD')
     ],
 
     /*
@@ -42,5 +42,17 @@ return [
     */
 
     'chunk' => 100,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Return message payload send to service
+    |--------------------------------------------------------------------------
+    |
+    | Set to true to return the payload sent to the underlying service.
+    | Only available for APNs
+    |
+    */
+
+    'payloads' => filter_var(env('PUSH_RETURN_PAYLOADS', false), FILTER_VALIDATE_BOOLEAN),
 
 ];
