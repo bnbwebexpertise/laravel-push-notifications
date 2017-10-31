@@ -54,7 +54,7 @@ Then set the desired configuration values :
 return [
 
     'apns' => [
-        'environement' => 'production',
+        'environment' => 'production',
         'certificate' => __DIR__ . '/push/certificate.pem',
         'password'    => 'changeme',
     ],
