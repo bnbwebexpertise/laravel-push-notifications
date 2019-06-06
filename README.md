@@ -1,4 +1,6 @@
-# Apple and Google Push Notifications for Laravel 5
+# [DEPRECATED] Apple and Google Push Notifications for Laravel 5
+
+> Use Firebase Cloud Messaging
 
 ## Installation
 
